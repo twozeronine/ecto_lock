@@ -4,13 +4,12 @@ defmodule EctoLock.Invoice do
   import Ecto.Changeset, only: [cast: 3]
   import Ecto.Query, only: [from: 2]
 
-  alias EctoLock.{Invoice}
-
   schema "invoices" do
     field(:pending, :boolean)
   end
 
-  def pending(query \\ Invoice) do
+  # 자신의 테이블을 순회하여 pending이 true인 테이블만 가져옴
+  def pending(query \\ __MODULE__) do
     from(i in query, [
       {:where, i.pending == true}
     ])
