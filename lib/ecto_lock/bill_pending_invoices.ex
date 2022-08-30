@@ -28,7 +28,9 @@ defmodule EctoLock.BillPendingInvoices do
   end
 
   def get_invoice(id) do
-    Repo.get(Invoice, id)
+    Invoice
+    |> Invoice.get_and_lock_invoice(id)
+    |> Repo.one()
   end
 
   # 송장을 청구하는 어떤 API
