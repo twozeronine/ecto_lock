@@ -8,8 +8,7 @@ defmodule EctoLock.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      # Starts a worker by calling: EctoLock.Worker.start_link(arg)
-      # {EctoLock.Worker, arg}
+      EctoLock.Repo
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
