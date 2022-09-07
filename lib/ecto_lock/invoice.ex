@@ -23,7 +23,7 @@ defmodule EctoLock.Invoice do
   def get_and_lock_invoice(query \\ __MODULE__, invoice_id) do
     from(i in query, [
       {:where, i.id == ^invoice_id and i.pending == true},
-      {:lock, "FOR UPDATE NOWAIT"}
+      {:lock, "FOR UPDATE"}
     ])
   end
 end

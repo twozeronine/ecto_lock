@@ -19,12 +19,15 @@ defmodule EctoLock.BillPendingInvoices do
 
   # 보류된 송장 하나를 청구함
   def bill_pending_invoice(invoice_id) do
-    # DB에서 해당하는 송장을 가져옴.
-    invoice = get_invoice(invoice_id)
-    # API를 통해 송장을 청구함. (1초 소요.)
-    bill_through_api(invoice)
-    # 청구가 완료되면 체크하고 DB에 업데이트함.
-    mark_invoice_sent(invoice)
+    fn ->
+      # DB에서 해당하는 송장을 가져옴.
+      invoice = get_invoice(invoice_id)
+      # API를 통해 송장을 청구함. (1초 소요.)
+      bill_through_api(invoice)
+      # 청구가 완료되면 체크하고 DB에 업데이트함.
+      mark_invoice_sent(invoice)
+    end
+    |> EctoLock.Repo.transaction()
   end
 
   def get_invoice(id) do
